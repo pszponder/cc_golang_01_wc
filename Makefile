@@ -2,7 +2,6 @@
 # https://www.alexedwards.net/blog/a-time-saving-makefile-for-your-go-projects
 
 # Variables
-GO = go
 BUILD_DIR = ./bin
 CMD_DIR = ./cmd
 CMD_NAMES = ccwc ccwc_bubbletea ccwc_cobra
@@ -52,6 +51,16 @@ audit:
 
 
 # ==================================================================================== #
+# DEPENDENCIES
+# ==================================================================================== #
+
+## deps: download dependencies
+.PHONY: deps
+deps:
+	go mod download
+
+
+# ==================================================================================== #
 # TESTING
 # ==================================================================================== #
 
@@ -78,26 +87,30 @@ all: build run
 .PHONY: build
 build:
 	@echo "Building executables..."
+	mkdir -p $(BUILD_DIR)
 	@$(foreach cmd, $(CMD_NAMES), \
-		$(GO) build -o $(BUILD_DIR)/$(cmd) $(CMD_DIR)/$(cmd);)
+		go build -o $(BUILD_DIR)/$(cmd) $(CMD_DIR)/$(cmd);)
 
 ## build/ccwc: build ccwc executable
 .PHONY: build/ccwc
 build/ccwc:
 	@echo "Building ccwc executable..."
-	@$(GO) build -o $(BUILD_DIR)/ccwc $(CMD_DIR)/ccwc
+	mkdir -p $(BUILD_DIR)
+	@go build -o $(BUILD_DIR)/ccwc $(CMD_DIR)/ccwc
 
 ## build/ccwc_cobra: build ccwc_cobra executable
 .PHONY: build/ccwc_cobra
 build/ccwc_cobra:
 	@echo "Building ccwc_cobra executable..."
-	@$(GO) build -o $(BUILD_DIR)/ccwc_cobra $(CMD_DIR)/ccwc_cobra
+	mkdir -p $(BUILD_DIR)
+	@go build -o $(BUILD_DIR)/ccwc_cobra $(CMD_DIR)/ccwc_cobra
 
 ## build/ccwc_bubbletea: build ccwc_bubbletea executable
 .PHONY: build/ccwc_bubbletea
 build/ccwc_bubbletea:
 	@echo "Building ccwc_bubbletea executable..."
-	@$(GO) build -o $(BUILD_DIR)/ccwc_bubbletea $(CMD_DIR)/ccwc_bubbletea
+	mkdir -p $(BUILD_DIR)
+	@go build -o $(BUILD_DIR)/ccwc_bubbletea $(CMD_DIR)/ccwc_bubbletea
 
 
 # ==================================================================================== #
@@ -106,23 +119,23 @@ build/ccwc_bubbletea:
 
 ## run: run all executables
 .PHONY: run
-run: run/ccwc run/ccwc_cobra run/ccwc_bubbletea
+run: build run/ccwc run/ccwc_cobra run/ccwc_bubbletea
 
 ## run/ccwc: run ccwc implementation
 .PHONY: run/ccwc
-run/ccwc:
+run/ccwc: build/ccwc
 	@echo "Executing ccwc..."
 	@$(BUILD_DIR)/ccwc
 
 ## run/ccwc_cobra: run ccwc cobra implementation
 .PHONY: run/ccwc_cobra
-run/ccwc_cobra:
+run/ccwc_cobra: build/ccwc_cobra
 	@echo "Executing ccwc cobra implementation..."
 	@$(BUILD_DIR)/ccwc_cobra
 
 ## run/ccwc_bubbletea: run ccwc bubbletea implementation
 .PHONY: run/ccwc_bubbletea
-run/ccwc_bubbletea:
+run/ccwc_bubbletea: build/ccwc_bubbletea
 	@echo "Executing ccwc bubbletea implementation..."
 	@$(BUILD_DIR)/ccwc_bubbletea
 
@@ -173,4 +186,15 @@ run/live/ccwc_bubbletea:
 .PHONY: clean
 clean:
 	@echo "Cleaning up..."
+	go clean
 	@rm -rf $(BUILD_DIR)/*
+
+
+# ==================================================================================== #
+# GIT
+# ==================================================================================== #
+
+## push: push changes to the remote Git repository, after running quality control checks
+.PHONY: push
+push: tidy audit no-dirty
+	git push
