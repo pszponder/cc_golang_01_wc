@@ -14,7 +14,7 @@ const (
 	CharCount
 )
 
-// Returns a bufio.SplitFunc based on the countType
+// scanType returns a bufio.SplitFunc based on the countType
 //
 //	The bufio.SplitFunc is used to split the input into tokens when scanning
 //
@@ -43,7 +43,7 @@ func scanType(scanType int) bufio.SplitFunc {
 	}
 }
 
-// Returns the count of the specified type
+// fileCounter returns the count of the specified type
 //
 // Parameters:
 // fileName - The name of the file to count
@@ -60,7 +60,7 @@ func scanType(scanType int) bufio.SplitFunc {
 func fileCounter(fileName string, countType int) int {
 	// Open File
 	file, err := os.Open(fileName)
-	Check(err)
+	check(err)
 	defer file.Close() // Close file when function returns
 
 	// Count

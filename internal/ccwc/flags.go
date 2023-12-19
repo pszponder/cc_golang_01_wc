@@ -14,11 +14,11 @@ type Flags struct {
 	CharCount bool
 }
 
-// Returns a Flags object based on the flags passed in by the user
+// getFlags returns a Flags object based on the flags passed in by the user
 //
 // Returns:
 // A Flags object
-func GetFlags() *Flags {
+func getFlags() *Flags {
 	// Define flags
 	fileNamePtr := flag.String("f", "", "file path")
 	byteCountPtr := flag.Bool("c", false, "print the byte counts")

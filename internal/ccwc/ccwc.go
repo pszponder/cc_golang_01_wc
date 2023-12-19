@@ -4,11 +4,11 @@ package ccwc
 
 import "fmt"
 
-// Prints the counts based on the flags passed in by the user
+// Ccwc prints the counts based on the flags passed in by the user
 //
 // If no flags are passed in, all counts will be printed
 func Ccwc() {
-	flags := GetFlags()
+	flags := getFlags()
 
 	// Iterate through flags and print counts
 	if flags.ByteCount {

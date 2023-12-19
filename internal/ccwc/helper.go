@@ -2,13 +2,13 @@
 
 package ccwc
 
-// Helper function to check for errors
+// Check is a helper function to check for errors
 //
 //	If an error is found, the program will panic
 //
 // Parameters:
 // e - The error to check
-func Check(e error) {
+func check(e error) {
 	if e != nil {
 		panic(e)
 	}
