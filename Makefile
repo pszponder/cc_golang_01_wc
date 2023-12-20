@@ -75,6 +75,12 @@ test/cover:
 	go test -v -race -buildvcs -coverprofile=/tmp/coverage.out ./...
 	go tool cover -html=/tmp/coverage.out
 
+## lint: run linter
+.PHONY: lint
+lint:
+	golangci-lint run ./...
+
+
 # ==================================================================================== #
 # COMPILING
 # ==================================================================================== #
