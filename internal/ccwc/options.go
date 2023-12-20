@@ -1,4 +1,4 @@
-// internal/ccwc/flags.go
+// internal/ccwc/options.go
 
 package ccwc
 
@@ -6,7 +6,7 @@ import (
 	"flag"
 )
 
-type Flags struct {
+type options struct {
 	FileName  string
 	ByteCount bool
 	LineCount bool
@@ -14,13 +14,12 @@ type Flags struct {
 	CharCount bool
 }
 
-// getFlags returns a Flags object based on the flags passed in by the user
+// getOptions returns an options object based on the flags passed in by the user
 //
 // Returns:
-// A Flags object
-func getFlags() *Flags {
+// An options object
+func getOptions() *options {
 	// Define flags
-	fileNamePtr := flag.String("f", "", "file path")
 	byteCountPtr := flag.Bool("c", false, "print the byte counts")
 	lineCountPtr := flag.Bool("l", false, "print the newline counts")
 	wordCountPtr := flag.Bool("w", false, "print the word counts")
@@ -29,14 +28,23 @@ func getFlags() *Flags {
 	// Parse flags
 	flag.Parse()
 
-	// Create Flags object
-	flags := &Flags{
-		FileName:  *fileNamePtr,
+	// Parse arguments
+	args := flag.Args()
+
+	// Get file name
+	fileName := ""
+	if len(args) != 0 {
+		fileName = args[0]
+	}
+
+	// Create options object
+	options := &options{
+		FileName:  fileName,
 		ByteCount: *byteCountPtr,
 		LineCount: *lineCountPtr,
 		WordCount: *wordCountPtr,
 		CharCount: *charCountPtr,
 	}
 
-	return flags
+	return options
 }
