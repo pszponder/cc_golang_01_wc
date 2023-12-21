@@ -7,33 +7,33 @@ import (
 )
 
 func main() {
-	options := ccwc.GetOptions()
+	opts := ccwc.GetOptions()
 
-	counts, err := ccwc.Counter(options.FileName)
+	counts, err := ccwc.Counter(opts.FileName)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	// Iterate through options and print counts
-	if options.ByteCount {
+	if opts.ByteCount {
 		fmt.Println("Byte Count:", counts.ByteCount)
 	}
 
-	if options.LineCount {
+	if opts.LineCount {
 		fmt.Println("Line Count:", counts.LineCount)
 	}
 
-	if options.WordCount {
+	if opts.WordCount {
 		fmt.Println("Word Count:", counts.WordCount)
 	}
 
-	if options.CharCount {
+	if opts.CharCount {
 		fmt.Println("Character Count:", counts.CharCount)
 	}
 
 	// If no options are passed in, print all counts
-	if !options.ByteCount && !options.LineCount && !options.WordCount && !options.CharCount {
+	if !opts.ByteCount && !opts.LineCount && !opts.WordCount && !opts.CharCount {
 		fmt.Println("Byte Count:", counts.ByteCount)
 		fmt.Println("Line Count:", counts.LineCount)
 		fmt.Println("Word Count:", counts.WordCount)

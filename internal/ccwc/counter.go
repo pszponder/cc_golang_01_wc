@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"os"
 	"strings"
+	"unicode/utf8"
 )
 
 // CountResult is a struct that contains the results of a count
@@ -48,10 +49,10 @@ func Counter(fileName string) (CountResult, error) {
 	for scanner.Scan() {
 		line := scanner.Text() // Get line of text from the scanner
 
-		counts.LineCount++                            // Increment line count
-		counts.ByteCount += len([]byte(line))         // Convert line to byte slice & get the length
-		counts.WordCount += len(strings.Fields(line)) // Convert line to slice of words & get the length
-		counts.CharCount += len(line)                 // Get the length of the line
+		counts.LineCount++                               // Increment line count
+		counts.ByteCount += len([]byte(line))            // Convert line to byte slice & get the length
+		counts.WordCount += len(strings.Fields(line))    // Convert line to slice of words & get the length
+		counts.CharCount += utf8.RuneCountInString(line) // Get the length of the line
 	}
 
 	return counts, scanner.Err()

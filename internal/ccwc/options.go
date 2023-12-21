@@ -38,7 +38,7 @@ func GetOptions() *options {
 	}
 
 	// Create options object
-	options := &options{
+	opts := &options{
 		FileName:  fileName,
 		ByteCount: *byteCountPtr,
 		LineCount: *lineCountPtr,
@@ -46,5 +46,5 @@ func GetOptions() *options {
 		CharCount: *charCountPtr,
 	}
 
-	return options
+	return opts
 }
