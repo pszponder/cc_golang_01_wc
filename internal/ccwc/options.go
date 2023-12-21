@@ -14,11 +14,11 @@ type options struct {
 	CharCount bool
 }
 
-// getOptions returns an options object based on the flags passed in by the user
+// GetOptions returns an options object based on the flags passed in by the user
 //
 // Returns:
 // An options object
-func getOptions() *options {
+func GetOptions() *options {
 	// Define flags
 	byteCountPtr := flag.Bool("c", false, "print the byte counts")
 	lineCountPtr := flag.Bool("l", false, "print the newline counts")

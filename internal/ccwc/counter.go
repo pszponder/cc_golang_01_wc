@@ -5,80 +5,54 @@ package ccwc
 import (
 	"bufio"
 	"os"
+	"strings"
 )
 
-const (
-	ByteCount = iota
-	LineCount
-	WordCount
-	CharCount
-)
-
-// scanType returns a bufio.SplitFunc based on the countType
-//
-//	The bufio.SplitFunc is used to split the input into tokens when scanning
-//
-// Parameters:
-// scanType - The type of scan to use
-//
-//	ByteCount: Number of bytes
-//	LineCount: Number of lines
-//	WordCount: Number of words
-//	CharCount: Number of characters
-//
-// Returns:
-// A bufio.SplitFunc
-func scanType(scanType int) bufio.SplitFunc {
-	switch scanType {
-	case ByteCount:
-		return bufio.ScanBytes
-	case LineCount:
-		return bufio.ScanLines
-	case WordCount:
-		return bufio.ScanWords
-	case CharCount:
-		return bufio.ScanRunes
-	default:
-		panic("Invalid scanType")
-	}
+// CountResult is a struct that contains the results of a count
+type CountResult struct {
+	ByteCount int
+	LineCount int
+	WordCount int
+	CharCount int
 }
 
-// counter returns the count of the specified type
-//
-// # If fileName is empty, stdin will be scanned instead
+// Counter counts the bytes, lines, words, and characters in a file
 //
 // Parameters:
-// fileName - The name of the file to count
-// countType - The type of count to return
-//
-//	Count Types:
-//	ByteCount: Number of bytes
-//	LineCount: Number of lines
-//	WordCount: Number of words
-//	CharCount: Number of characters
+// fileName: The name of the file to count (if empty, stdin will be scanned)
 //
 // Returns:
-// The count of the specified type
-func counter(fileName string, countType int) int {
+// A CountResult struct containing the counts
+func Counter(fileName string) (CountResult, error) {
 	var scanner *bufio.Scanner
 
 	if fileName == "" {
+		// Scan stdin
 		scanner = bufio.NewScanner(os.Stdin)
 	} else {
 		// Open File
 		file, err := os.Open(fileName)
-		check(err)
+		if err != nil {
+			return CountResult{}, err
+		}
 		defer file.Close() // Close file when function returns
 
+		// Scan file
 		scanner = bufio.NewScanner(file)
 	}
 
-	// Count
-	scanner.Split(scanType(countType))
-	count := 0
+	// Initialize counts (0 by default)
+	counts := CountResult{}
+
+	// Count (scan line by line)
 	for scanner.Scan() {
-		count++
+		line := scanner.Text() // Get line of text from the scanner
+
+		counts.LineCount++                            // Increment line count
+		counts.ByteCount += len([]byte(line))         // Convert line to byte slice & get the length
+		counts.WordCount += len(strings.Fields(line)) // Convert line to slice of words & get the length
+		counts.CharCount += len(line)                 // Get the length of the line
 	}
 
-	return count
+	return counts, scanner.Err()
 }
