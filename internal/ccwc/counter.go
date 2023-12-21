@@ -43,7 +43,9 @@ func scanType(scanType int) bufio.SplitFunc {
 	}
 }
 
-// fileCounter returns the count of the specified type
+// counter returns the count of the specified type
+//
+// # If fileName is empty, stdin will be scanned instead
 //
 // Parameters:
 // fileName - The name of the file to count
@@ -57,14 +59,21 @@ func scanType(scanType int) bufio.SplitFunc {
 //
 // Returns:
 // The count of the specified type
-func fileCounter(fileName string, countType int) int {
-	// Open File
-	file, err := os.Open(fileName)
-	check(err)
-	defer file.Close() // Close file when function returns
+func counter(fileName string, countType int) int {
+	var scanner *bufio.Scanner
+
+	if fileName == "" {
+		scanner = bufio.NewScanner(os.Stdin)
+	} else {
+		// Open File
+		file, err := os.Open(fileName)
+		check(err)
+		defer file.Close() // Close file when function returns
+
+		scanner = bufio.NewScanner(file)
+	}
 
 	// Count
-	scanner := bufio.NewScanner(file)
 	scanner.Split(scanType(countType))
 	count := 0
 	for scanner.Scan() {
