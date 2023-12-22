@@ -84,4 +84,6 @@ Character Count: 332144
 - [NerdCademy - Learn to Read Files w/ Go!](https://www.youtube.com/watch?v=8uKtaYJlTzs)
 - [Honeybadger - A comprehensive guide to file operations in Go](https://www.honeybadger.io/blog/comprehensive-guide-to-file-operations-in-go/)
 - [spf13/cobra](https://github.com/spf13/cobra)
+- [Melkey - This makes Golang CLIL Development So MUCH Better](https://www.youtube.com/watch?v=yybzcix10XI)
 - [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea)
+- [Melkey - This is Why You NEED to Use This Golang CLI Framework](https://www.youtube.com/watch?v=ncakAFWxIys)
