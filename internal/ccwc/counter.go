@@ -49,10 +49,10 @@ func Counter(fileName string) (CountResult, error) {
 	for scanner.Scan() {
 		line := scanner.Text() // Get line of text from the scanner
 
-		counts.LineCount++                               // Increment line count
-		counts.ByteCount += len([]byte(line))            // Convert line to byte slice & get the length
-		counts.WordCount += len(strings.Fields(line))    // Convert line to slice of words & get the length
-		counts.CharCount += utf8.RuneCountInString(line) // Get the length of the line
+		counts.LineCount++                                   // Increment line count
+		counts.ByteCount += len([]byte(line)) + 1            // Convert line to byte slice & get the length (+1 for new line characters)
+		counts.WordCount += len(strings.Fields(line))        // Convert line to slice of words & get the length
+		counts.CharCount += utf8.RuneCountInString(line) + 1 // Convert the line to runes (+1 for new line characters)
 	}
 
 	return counts, scanner.Err()
