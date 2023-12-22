@@ -23,39 +23,53 @@ The Makefile includes a `lint` command which depends on [golangci-lint](https://
 Reading counts from passed in file
 ```bash
 # Byte Count
-ccwc -c <filepath>
+./ccwc -c <filepath>
 
 # Line Count
-ccwc -l <filepath>
+./ccwc -l <filepath>
 
 # Word Count
-ccwc -w <filepath>
+./ccwc -w <filepath>
 
 # Char Count
-ccwc -m <filepath>
+./ccwc -m <filepath>
 
 # All Counts (default w/ no options)
-ccwc <filepath>
+./ccwc <filepath>
 ```
 
 Reading counts from stdin
 ```bash
 # Byte Count
-cat <filepath> | ccwc -c
+cat <filepath> | ./ccwc -c
 
 # Line Count
-cat <filepath> | ccwc -l
+cat <filepath> | ./ccwc -l
 
 # Word Count
-cat <filepath> | ccwc -w
+cat <filepath> | ./ccwc -w
 
 # Char Count
-cat <filepath> | ccwc -m
+cat <filepath> | ./ccwc -m
 
 # All Counts (default w/ no options)
-cat <filepath> | ccwc <filepath>
+cat <filepath> | ./ccwc <filepath>
 ```
 
+Example Usage
+```bash
+./bin/ccwc ../tests/test.txt
+Byte Count: 335040
+Line Count: 7143
+Word Count: 58164
+Character Count: 332144
+
+cat /tests/test.txt | ./bin/ccwc
+Byte Count: 335040
+Line Count: 7143
+Word Count: 58164
+Character Count: 332144
+```
 
 ## Resources / References
 - [John Crickett - Coding Challenge #1 - Build your own wc!](https://codingchallenges.substack.com/p/coding-challenge-1)
