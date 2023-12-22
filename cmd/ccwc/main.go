@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	opts := ccwc.GetOptions()
+	opts := ccwc.ParseOptions()
 
 	counts, err := ccwc.Counter(opts.FileName)
 	if err != nil {
