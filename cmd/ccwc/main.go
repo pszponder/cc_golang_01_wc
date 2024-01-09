@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/pszponder/cc_golang_01_wc/internal/ccwc"
+	"github.com/pszponder/word-count_go/internal/ccwc"
 )
 
 func main() {
